@@ -72,6 +72,6 @@ const createRentalAds = () => {
   };
 }
 
-const rentalAds = new Array(RENTAL_ADS_COUNT).fill(null).map(() => createRentalAds());
+const rentalAds = () => new Array(RENTAL_ADS_COUNT).fill(null).map(() => createRentalAds());
 
 export {rentalAds};
