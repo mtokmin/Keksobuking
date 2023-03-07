@@ -28,13 +28,13 @@ similarCards.forEach(({author, offer, location}) => {
       break;
   }
 
-  let guestsCapacityText ='';
+  let guestsCapacityText = '';
   switch (offer.guests) {
     case 1:
-      roomsCapacityText = 'гостя';
+      guestsCapacityText = 'гостя';
       break;
     default:
-      roomsCapacityText = 'гостей';
+      guestsCapacityText = 'гостей';
       break;
   }
 
