@@ -12,7 +12,7 @@ const similarCards = rentalAds();
 
 const similarCardsFragment = document.createDocumentFragment();
 
-similarCards.forEach(({author, offer, location}) => {
+similarCards.forEach(({author, offer}) => {
   const cardsElement = cardTemplate.cloneNode(true);
 
   let roomsCapacityText = '';
@@ -53,5 +53,4 @@ similarCards.forEach(({author, offer, location}) => {
 
 })
 
-const mapCanvas = document.getElementById('map-canvas');
-mapCanvas.appendChild(similarCardsFragment);
+

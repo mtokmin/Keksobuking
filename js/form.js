@@ -6,14 +6,27 @@ const typeMinPriceMap = new Map([
   ['palace', 10000],
 ]);
 
-const form = document.querySelector('.ad-form');
-const fieldTypeHousing = form.querySelector('#type');
-const fieldPrice = form.querySelector('#price');
-const timeIn = form.querySelector('#timein');
-const timeOut = form.querySelector('#timeout');
+const adForm = document.querySelector('.ad-form');
+const adFormList = adForm.children;
+
+const fieldTypeHousing = adForm.querySelector('#type');
+const fieldPrice = adForm.querySelector('#price');
+const timeIn = adForm.querySelector('#timein');
+const timeOut = adForm.querySelector('#timeout');
+
+const addressAd = adForm.querySelector('#address');
+
+function addressAdInicialize() {
+  addressAd.setAttribute('readonly', true);
+}
+
+addressAdInicialize();
+
+function addresAdSetCoords(coords) {
+  addressAd.value = `${coords.lat.toFixed(5)}, ${coords.lng.toFixed(5)}`
+}
 
 //Устновка минимальной цены
-
 function setMinPrice() {
   let selectedValuePrice = typeMinPriceMap.get(fieldTypeHousing.value);
   fieldPrice.setAttribute('min', selectedValuePrice);
@@ -24,7 +37,6 @@ setMinPrice();
 fieldTypeHousing.addEventListener('change', setMinPrice);
 
 //Сихронизация времени заезда/выезда
-
 function toSyncTimeIn() {
   timeIn.value = timeOut.value;
 }
@@ -36,3 +48,20 @@ function toSyncTimeOut() {
 timeIn.addEventListener('change', toSyncTimeOut);
 
 timeOut.addEventListener('change', toSyncTimeIn);
+
+//Блокировка/разблокировка формы
+function formDisabled() {
+  adForm.classList.add('ad-form--disabled');
+  for (let elem of adFormList) {
+    elem.disabled = true
+  };
+};
+
+function formEnabled() {
+  adForm.classList.remove('ad-form--disabled');
+  for (let elem of adFormList) {
+    elem.disabled = false
+  };
+};
+
+export { formDisabled, formEnabled, addresAdSetCoords }
