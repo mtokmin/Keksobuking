@@ -1,18 +1,18 @@
-import {rentalAds} from './data.js';
+import { rentalAds } from './data.js';
 
-let typeHousingMap = new Map ([
+let typeHousingMap = new Map([
   ['palace', 'Дворец '],
   ['flat', 'Квартира'],
   ['house', 'Дом'],
   ['bungalow', 'Бунгало']]);
 
-const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 
 const similarCards = rentalAds();
 
-const similarCardsFragment = document.createDocumentFragment();
+//Функция для отрисовки карточки
+function createAdCards({ author, offer }) {
+  const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 
-similarCards.forEach(({author, offer}) => {
   const cardsElement = cardTemplate.cloneNode(true);
 
   let roomsCapacityText = '';
@@ -20,11 +20,13 @@ similarCards.forEach(({author, offer}) => {
     case 1:
       roomsCapacityText = 'комната';
       break;
-    case (offer.rooms > 4):
-      roomsCapacityText = 'комнат';
+    case 2:
+    case 3:
+    case 4:
+      roomsCapacityText = 'комнаты';
       break;
     default:
-      roomsCapacityText = 'комнаты';
+      roomsCapacityText = 'комнат';
       break;
   }
 
@@ -49,8 +51,9 @@ similarCards.forEach(({author, offer}) => {
   cardsElement.querySelector('.popup__description').textContent = offer.description;
   cardsElement.querySelector('.popup__photos').querySelector('.popup__photo').src = offer.photos;
 
-  similarCardsFragment.appendChild(cardsElement);
-
-})
+  return cardsElement;
 
 
+}
+
+export { similarCards, createAdCards };

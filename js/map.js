@@ -1,5 +1,6 @@
 import { formEnabled, addresAdSetCoords } from './form.js';
 import { mapFiltersEnable } from './mapFilters.js';
+import { similarCards, createAdCards } from './card.js';
 
 const L = window.L;
 const ZOOM_MAP = 12;
@@ -12,11 +13,17 @@ const LeafletParameters = {
   ATTRIBUTION:
     '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 };
-//Главная метка
+//Иконка главной метки
 const mainPinIcon = L.icon({
   iconUrl: './leaflet/img/main-pin.svg',
   iconSize: [52, 52],
   iconAnchor: [26, 52],
+})
+//Иконка метки объявлений
+const pinAdIcon = L.icon({
+  iconUrl: './leaflet/img/pin.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
 })
 
 const map = L.map('map-canvas');
@@ -35,13 +42,19 @@ const mapInicialize = () => {
   }).addTo(map);
 };
 
-const mainPin = L.marker(
-  CENTER_TOKYO_COORDS,
-  {
-    draggable: true,
-    icon: mainPinIcon,
-  },
-);
+//Функция по созданию меток
+
+function createPin(coords, icon, draggable = false) {
+  return L.marker(
+    coords,
+    {
+      icon: icon,
+      draggable: draggable,
+    },
+  )
+}
+//Создаем главную метку
+const mainPin = createPin(CENTER_TOKYO_COORDS, mainPinIcon, true)
 
 mainPin.addTo(map);
 
@@ -50,5 +63,21 @@ mainPin.on('moveend', (e) => {
   let coords = e.target.getLatLng();
   addresAdSetCoords(coords); //Вставляем координаты в строку адреса
 })
+
+//Создаем метки объявлений
+function createPinAds(ads, icon) {
+  ads.forEach((ad) => {
+    const marker = createPin(ad.location, icon);
+    marker
+      .addTo(map)
+      .bindPopup(
+        createAdCards(ad),
+        {
+          keepInView: true,
+        },
+      )
+  })
+}
+createPinAds(similarCards, pinAdIcon);
 
 export { mapInicialize, CENTER_TOKYO_COORDS };

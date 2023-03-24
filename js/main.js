@@ -1,4 +1,4 @@
-import './generator.js';
+import './card.js';
 import { formDisabled } from './form.js';
 import { mapInicialize } from './map.js';
 import { mapFiltersDisable } from './mapFilters.js';

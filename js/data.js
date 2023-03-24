@@ -66,8 +66,8 @@ const createRentalAds = () => {
       photos: getRandomUniqueArrElements(PHOTOS),
     },
     location: {
-      x: getRandomFloat(35.65, 35.7, 5),
-      y: getRandomFloat(139.7, 139.8, 5),
+      lat: getRandomFloat(35.65, 35.7, 5),
+      lng: getRandomFloat(139.7, 139.8, 5),
     },
   };
 }
