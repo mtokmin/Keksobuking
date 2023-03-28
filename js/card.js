@@ -52,8 +52,6 @@ function createAdCards({ author, offer }) {
   cardsElement.querySelector('.popup__photos').querySelector('.popup__photo').src = offer.photos;
 
   return cardsElement;
-
-
 }
 
 export { similarCards, createAdCards };
