@@ -1,4 +1,4 @@
-import { rentalAds } from './data.js';
+const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 
 let typeHousingMap = new Map([
   ['palace', 'Дворец '],
@@ -7,11 +7,10 @@ let typeHousingMap = new Map([
   ['bungalow', 'Бунгало']]);
 
 
-const similarCards = rentalAds();
-
 //Функция для отрисовки карточки
+
+
 function createAdCards({ author, offer }) {
-  const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 
   const cardsElement = cardTemplate.cloneNode(true);
 
@@ -54,4 +53,4 @@ function createAdCards({ author, offer }) {
   return cardsElement;
 }
 
-export { similarCards, createAdCards };
+export { createAdCards };

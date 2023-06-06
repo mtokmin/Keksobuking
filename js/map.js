@@ -1,6 +1,6 @@
 import { formEnabled, addresAdSetCoords } from './form.js';
 import { mapFiltersEnable } from './mapFilters.js';
-import { similarCards, createAdCards } from './card.js';
+import { createAdCards } from './card.js';
 
 const L = window.L;
 const ZOOM_MAP = 12;
@@ -64,20 +64,32 @@ mainPin.on('moveend', (e) => {
   addresAdSetCoords(coords); //Вставляем координаты в строку адреса
 })
 
+//Сброс главное метки
+const mainPinReset = () => {
+  mainPin.setLatLng(CENTER_TOKYO_COORDS);
+
+  addresAdSetCoords(CENTER_TOKYO_COORDS);
+}
+
+// Создание слоя с группой меток
+const markerGroup = L.layerGroup().addTo(map);
+
+
 //Создаем метки объявлений
 function createPinAds(ads, icon) {
   ads.forEach((ad) => {
     const marker = createPin(ad.location, icon);
     marker
-      .addTo(map)
+      .addTo(markerGroup)
       .bindPopup(
-        createAdCards(ad),
+        createAdCards(ad), // привязывает балун-объявление к метке
         {
-          keepInView: true,
+          keepInView: true, //карта автоматически перемещается, если всплывающий балун-объявление не помещается и вылезает за границы
         },
       )
   })
 }
-createPinAds(similarCards, pinAdIcon);
 
-export { mapInicialize, CENTER_TOKYO_COORDS };
+
+
+export { createPinAds, pinAdIcon, mapInicialize, mainPinReset };

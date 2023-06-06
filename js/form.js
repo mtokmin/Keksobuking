@@ -1,3 +1,8 @@
+import { sendData } from './server.js';
+import { showErrorModal, showSuccessModal } from './popup.js';
+import { mainPinReset } from './map.js';
+import { mapFiltersReset } from './mapFilters.js'
+
 //Объект МАР для мин цены
 const typeMinPriceMap = new Map([
   ['bungalow', 0],
@@ -24,7 +29,7 @@ const timeIn = adForm.querySelector('#timein');
 const timeOut = adForm.querySelector('#timeout');
 const roomNumber = adForm.querySelector('#room_number');
 const capacity = adForm.querySelector('#capacity');
-
+const resetButtonAdForm = adForm.querySelector('.ad-form__reset');
 
 const addressAd = adForm.querySelector('#address');
 
@@ -65,17 +70,17 @@ timeOut.addEventListener('change', toSyncTimeIn);
 //Ограничение кол-ва мест от кол-ва гостей
 
 //Удаляем елементы из списка кол-во мест
-function clearCapaciryList() {
+const clearCapaciryList = () => {
   while (capacity.firstChild) {
     capacity.removeChild(capacity.firstChild);
   }
 }
 
 //Функция по ограничению кол-ва мест при типе жилья
-function capacityRoomsLimit() {
+const capacityRoomsLimit = () => {
   let capacityValues = roomNumberCapacityMap[roomNumber.value];
   clearCapaciryList();
-  capacityValues.forEach((capacityValue)=> {
+  capacityValues.forEach((capacityValue) => {
     const option = document.createElement('option');
     const roomNumberValue = roomNumber.value == 100 ? 0 : roomNumber.value;
     option.value = roomNumberValue;
@@ -88,14 +93,14 @@ capacityRoomsLimit();
 roomNumber.addEventListener('change', capacityRoomsLimit);
 
 //Блокировка/разблокировка формы
-function formDisabled() {
+const formDisabled = () => {
   adForm.classList.add('ad-form--disabled');
   for (let elem of adFormList) {
     elem.disabled = true
   }
 }
 
-function formEnabled() {
+const formEnabled = () => {
   adForm.classList.remove('ad-form--disabled');
   for (let elem of adFormList) {
     elem.disabled = false
@@ -114,6 +119,36 @@ titleAdInput.addEventListener('invalid', () => {
   }
 });
 
+//Сброс формы в исходное состояние
 
+const resetPage = () => {
+  adForm.reset();
+  mapFiltersReset();
+  mainPinReset();
+}
 
-export { formDisabled, formEnabled, addresAdSetCoords }
+resetButtonAdForm.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  resetPage();
+})
+
+//Отправка формы
+
+const setUserFormSubmit = () => {
+  adForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const formData = new FormData(evt.target);
+
+    sendData(
+      () => {
+        showSuccessModal();
+        resetPage();
+      },
+      showErrorModal,
+      formData,
+    );
+
+  })
+};
+
+export { formDisabled, formEnabled, addresAdSetCoords, setUserFormSubmit }

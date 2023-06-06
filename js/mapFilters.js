@@ -3,18 +3,23 @@ const mapFiltersList = mapFilters.children;
 
 //Блокировка фильтра карты
 
-function mapFiltersDisable() {
+const mapFiltersDisable = () => {
   mapFilters.classList.add('ad-form--disabled');
-  for(let elem of mapFiltersList) {
+  for (let elem of mapFiltersList) {
     elem.disabled = true;
   }
-};
+}
 
-function mapFiltersEnable() {
+const mapFiltersEnable = () => {
   mapFilters.classList.remove('ad-form--disabled');
-  for(let elem of mapFiltersList) {
+  for (let elem of mapFiltersList) {
     elem.disabled = false;
   }
-};
+}
 
-export {mapFiltersDisable, mapFiltersEnable}
+//Сброс фильтров карты
+const mapFiltersReset = () => {
+  mapFilters.reset();
+}
+
+export { mapFiltersDisable, mapFiltersEnable, mapFiltersReset }
