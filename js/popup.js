@@ -9,9 +9,9 @@ const closeErrorButton = errorPopup.querySelector('.error__button');
 const showSuccessModal = () => {
   document.body.appendChild(successPopup);
   successPopup.style.zIndex = 550;
-  const keydownHandler = (e) => {
-    if (isEscEvent(e)) {
-      e.preventDefault();
+  const keydownHandler = (evt) => {
+    if (isEscEvent(evt)) {
+      evt.preventDefault();
       successPopup.remove();
       document.removeEventListener('keydown', keydownHandler);
     }

@@ -44,7 +44,7 @@ const mapInicialize = () => {
 
 //Функция по созданию меток
 
-function createPin(coords, icon, draggable = false) {
+function createPin(coords, icon = pinAdIcon, draggable = false) {
   return L.marker(
     coords,
     {
@@ -76,9 +76,9 @@ const markerGroup = L.layerGroup().addTo(map);
 
 
 //Создаем метки объявлений
-function createPinAds(ads, icon) {
+function createPinAds(ads) {
   ads.forEach((ad) => {
-    const marker = createPin(ad.location, icon);
+    const marker = createPin(ad.location);
     marker
       .addTo(markerGroup)
       .bindPopup(
@@ -90,6 +90,21 @@ function createPinAds(ads, icon) {
   })
 }
 
+function createPinAd(ad) {
+  const marker = createPin(ad.location);
+  marker
+    .addTo(markerGroup)
+    .bindPopup(
+      createAdCards(ad), // привязывает балун-объявление к метке
+      {
+        keepInView: true, //карта автоматически перемещается, если всплывающий балун-объявление не помещается и вылезает за границы
+      },
+    )
+}
+
+// Очищение слоя с метками объявлений
+const clearMarkers = () => markerGroup.clearLayers();
 
 
-export { createPinAds, pinAdIcon, mapInicialize, mainPinReset };
+
+export { createPinAd, mapInicialize, mainPinReset, clearMarkers, createPinAds };
