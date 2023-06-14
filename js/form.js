@@ -1,7 +1,12 @@
 import { sendData } from './server.js';
 import { showErrorModal, showSuccessModal } from './popup.js';
 import { mainPinReset } from './map.js';
-import { mapFiltersReset } from './mapFilters.js'
+import { mapFiltersReset } from './mapFilters.js';
+import { renderPhoto } from './renderPhoto.js';
+
+const IMG_WIDTH = 70;
+const IMG_HEIGHT = 70;
+const DEFAULT_AVATAR_IMG = 'img/muffin-grey.svg';
 
 //Объект МАР для мин цены
 const typeMinPriceMap = new Map([
@@ -30,8 +35,15 @@ const timeOut = adForm.querySelector('#timeout');
 const roomNumber = adForm.querySelector('#room_number');
 const capacity = adForm.querySelector('#capacity');
 const resetButtonAdForm = adForm.querySelector('.ad-form__reset');
-
 const addressAd = adForm.querySelector('#address');
+
+//Для фото
+const adFormAvatar = adForm.querySelector('.ad-form-header__preview');
+const adFormAvatarPreview = adFormAvatar.querySelector('img').cloneNode(true);
+const adFormAvatarChooser = adForm.querySelector('#avatar');
+const adFormPhoto = adForm.querySelector('.ad-form__photo');
+const adFormPhotoChooser = adForm.querySelector('#images');
+
 
 function addressAdInicialize() {
   addressAd.setAttribute('readonly', true);
@@ -125,6 +137,9 @@ const resetPage = () => {
   adForm.reset();
   mapFiltersReset();
   mainPinReset();
+  adFormAvatarPreview.src = DEFAULT_AVATAR_IMG;
+  adFormPhoto.innerHTML = '';
+
 }
 
 resetButtonAdForm.addEventListener('click', (evt) => {
@@ -150,5 +165,32 @@ const setUserFormSubmit = () => {
 
   })
 };
+
+//Создания превью фото пользователя и объявления
+const getAvatar = (result) => {
+  const fragment = document.createDocumentFragment();
+  adFormAvatarPreview.src = result;
+  fragment.appendChild(adFormAvatarPreview);
+  adFormAvatar.innerHTML = '';
+  adFormAvatar.appendChild(fragment)
+}
+
+const getPhoto = (result) => {
+  adFormPhoto.innerHTML = '';
+  const fragment = document.createDocumentFragment();
+  const element = document.createElement('img');
+  element.src = result;
+  element.width = IMG_WIDTH;
+  element.height = IMG_HEIGHT;
+  fragment.appendChild(element);
+  adFormPhoto.appendChild(fragment);
+
+}
+
+const getAvatarPreview = () => renderPhoto(adFormAvatarChooser, getAvatar);
+const getPhotoPreview = () => renderPhoto(adFormPhotoChooser, getPhoto);
+
+getAvatarPreview();
+getPhotoPreview();
 
 export { formDisabled, formEnabled, addresAdSetCoords, setUserFormSubmit }

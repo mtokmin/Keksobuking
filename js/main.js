@@ -1,6 +1,5 @@
-import './card.js';
 import { formDisabled, setUserFormSubmit } from './form.js';
-import { mapInicialize, createPinAds } from './map.js';
+import { mapInicialize } from './map.js';
 import { mapFiltersDisable, checkAllFilters, changeMapFilters } from './mapFilters.js';
 import { getData } from './server.js';
 import { debounce } from './util.js';
