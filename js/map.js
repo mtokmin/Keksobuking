@@ -1,4 +1,4 @@
-import { formEnabled, addresAdSetCoords } from './form.js';
+import { formEnabled, addressAdSetCoords } from './form.js';
 import { mapFiltersEnable } from './mapFilters.js';
 import { createAdCards } from './card.js';
 
@@ -33,7 +33,7 @@ const mapInicialize = () => {
     .on('load', () => { //События при загрузке карты
       formEnabled(); //Разблокируем форму
       mapFiltersEnable(); //Разблокируем фильтр карты
-      addresAdSetCoords(CENTER_TOKYO_COORDS); //Задаем строке адреса координаты поумолчанию
+      addressAdSetCoords(CENTER_TOKYO_COORDS); //Задаем строке адреса координаты поумолчанию
     })
     .setView(CENTER_TOKYO_COORDS, ZOOM_MAP);
 
@@ -61,14 +61,14 @@ mainPin.addTo(map);
 //Получаем координаты главной метки
 mainPin.on('moveend', (e) => {
   let coords = e.target.getLatLng();
-  addresAdSetCoords(coords); //Вставляем координаты в строку адреса
+  addressAdSetCoords(coords); //Вставляем координаты в строку адреса
 })
 
 //Сброс главное метки
 const mainPinReset = () => {
   mainPin.setLatLng(CENTER_TOKYO_COORDS);
 
-  addresAdSetCoords(CENTER_TOKYO_COORDS);
+  addressAdSetCoords(CENTER_TOKYO_COORDS);
 }
 
 // Создание слоя с группой меток

@@ -23,7 +23,7 @@ mapInicialize();
 getData((ads) => {
   checkAllFilters(ads);
   changeMapFilters(debounce(() => checkAllFilters(ads), TIMEOUT_DELAY));
-})
+}, showErrorModal)
 
 setUserFormSubmit();
 

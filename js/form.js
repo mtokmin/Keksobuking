@@ -52,7 +52,7 @@ function addressAdInicialize() {
 addressAdInicialize();
 
 //Задаем координаты строке адреса
-function addresAdSetCoords(coords) {
+function addressAdSetCoords(coords) {
   addressAd.value = `${coords.lat.toFixed(5)}, ${coords.lng.toFixed(5)}`
 }
 
@@ -193,4 +193,4 @@ const getPhotoPreview = () => renderPhoto(adFormPhotoChooser, getPhoto);
 getAvatarPreview();
 getPhotoPreview();
 
-export { formDisabled, formEnabled, addresAdSetCoords, setUserFormSubmit }
+export { formDisabled, formEnabled, addressAdSetCoords, setUserFormSubmit }
